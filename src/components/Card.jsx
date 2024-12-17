@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Card() {
+const Card = () => {
   return (
     <div>
       <p>Card</p>
@@ -8,3 +8,4 @@ export default function Card() {
   )
 }
 
+export default Card;

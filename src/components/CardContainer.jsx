@@ -46,12 +46,13 @@ const data = [
   ];
 
 
-export default function CardContainer() {
+const CardContainer = () => {
   return (
     <div>
       <p>CardContainer</p>
     </div>
   )
 }
+export default CardContainer;
 
 
