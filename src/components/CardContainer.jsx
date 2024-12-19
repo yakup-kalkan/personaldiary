@@ -1,70 +1,72 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "./Card";
+import { getAllCard } from "../helpers/storageWorker";
+import Popup from "./Popup";
+import { editCard, deleteCard } from "../helpers/storageWorker";
 
 const CardContainer = () => {
   const [cardData, setCardData] = useState([]);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [currentCard, setCurrentCard] = useState(null);
 
   useEffect(() => {
-    const data = [
-      {
-        id: "1",
-        title: "Day 1",
-        img: "https://picsum.photos/200/300?random=1", // Example image placeholder
-        content: "sdfksdfslkd",
-        date: "2024-12-11T15:28:37.332Z",
-      },
-      {
-        id: "2",
-        title: "Day 2",
-        img: "https://picsum.photos/200/300?random=2", // Example image placeholder
-        content: "sdfksdfslkd",
-        date: "2024-12-12T15:28:37.332Z",
-      },
-      {
-        id: "3",
-        title: "Day 3",
-        img: "https://picsum.photos/200/300?random=3", // Example image placeholder
-        content: "sdfksdfslkd",
-        date: "2024-12-13T15:28:37.332Z",
-      },
-      {
-        id: "4",
-        title: "Day 4",
-        img: "https://picsum.photos/200/300?random=4", // Example image placeholder
-        content: "sdfksdfslkd",
-        date: "2024-12-14T15:28:37.332Z",
-      },
-      {
-        id: "5",
-        title: "Day 5",
-        img: "https://picsum.photos/200/300?random=5", // Example image placeholder
-        content: "sdfksdfslkd",
-        date: "2024-12-15T15:28:37.332Z",
-      },
-      {
-        id: "6",
-        title: "Day 6",
-        img: "https://picsum.photos/200/300?random=6", // Example image placeholder
-        content: "sdfksdfslkd",
-        date: "2024-12-16T15:28:37.332Z",
-      },
-    ];
-
-    setCardData(data);
+    // Veritabanından kartları alıyoruz
+    setCardData(getAllCard().reverse());
   }, []);
 
+  const handleCardClick = (card) => {
+    // Tıklanan kartın bilgilerini Popup'a aktarıyoruz
+    setCurrentCard(card);
+    setIsPopupOpen(true); // Popup'ı açıyoruz
+  };
+
+  const handleSave = (updatedCard) => {
+    if (updatedCard.id) {
+      // Kartı güncelle
+      editCard(updatedCard.id, updatedCard);
+    } else {
+      // Yeni kart ekle (eğer id yoksa)
+      createCard(updatedCard.title, updatedCard.date, updatedCard.imgUrl, updatedCard.content);
+    }
+    setCardData(getAllCard().reverse()); // Kartları tekrar güncelle
+    setIsPopupOpen(false); // Popup'ı kapatıyoruz
+  };
+
+  const handleDelete = (id) => {
+    deleteCard(id); // Kartı sil
+    setCardData(getAllCard().reverse()); // Kartları tekrar güncelle
+    setIsPopupOpen(false); // Popup'ı kapat
+  };
+
+  const handleClosePopup = () => {
+    // Popup'ı kapatıyoruz
+    setIsPopupOpen(false);
+  };
+
   return (
-    <div className="grid grid-cols-1 sm: grid-cols-2 md:grid-cols-3 gap-6 p-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
       {cardData.map((entry) => (
-        <Card key = {entry.id}
+        <Card
+          key={entry.id}
           id={entry.id}
           title={entry.title}
           date={entry.date}
           img={entry.img}
+          imgUrl={entry.imgUrl}
+          content={entry.content} // content verisini de Card'a iletiyoruz
+          onClick={handleCardClick} // Kart tıklanıldığında handleCardClick'i çağırıyoruz
         />
       ))}
+
+      <Popup
+        isOpen={isPopupOpen}
+        onClose={handleClosePopup}
+        onSave={handleSave}
+        onDelete={handleDelete}
+        initialData={currentCard} // Popup'a tıklanan kartın bilgilerini gönderiyoruz
+      />
     </div>
   );
 };
+
 export default CardContainer;
