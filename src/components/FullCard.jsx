@@ -1,9 +1,17 @@
-import React, {useEffect, useState} from "react";
-import {getCard} from "../helpers/storageWorker.js";
+import {useContext, useEffect, useState} from "react";
+import {deleteCard, getCard} from "../helpers/storageWorker.js";
+import {RerenderContext} from "../helpers/rerenderContext.js";
 
 export function FullCard({isOpen, closeModal, id}) {
     if (!isOpen) return null;
     const [isCard, setIsCard] = useState('')
+    const {triggerRerender} = useContext(RerenderContext);
+
+    const handleOnDelete = () => {
+        deleteCard(id);
+        triggerRerender();
+        closeModal();
+    }
 
     useEffect(() => {
         const card = getCard(id);
@@ -24,6 +32,9 @@ export function FullCard({isOpen, closeModal, id}) {
                 </div>
                 <p className="text-gray-700 text-base leading-relaxed break-words mb-4">{isCard.content}</p>
                 <div className="mt-6 flex justify-end">
+                    <button className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 mr-4"
+                            onClick={handleOnDelete}>Delete
+                    </button>
                     <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
                             onClick={closeModal}>Close
                     </button>

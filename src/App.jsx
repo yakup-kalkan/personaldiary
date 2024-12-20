@@ -11,7 +11,7 @@ function App() {
     };
     return (
         <RerenderContext.Provider value={{isRerender, triggerRerender}}>
-            <div>
+            <div className="min-h-screen flex flex-col">
                 <Header/>
                 <CardContainer/>
                 <Footer/>

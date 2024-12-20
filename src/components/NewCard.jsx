@@ -19,8 +19,6 @@ export function NewCard({isOpen, closeModal}) {
         if (date && title.value && imgUrl.value && content.value) {
             createCard(title.value, date, imgUrl.value, content.value);
             triggerRerender();
-        } else {
-            alert('Please fill in all fields');
         }
     };
 
@@ -39,12 +37,14 @@ export function NewCard({isOpen, closeModal}) {
                     </div>
                     <div className="mb-4 grid grid-cols-2 gap-4">
                         <input
+                            required
                             type="text"
                             className="w-full border border-gray-300 p-2 rounded-lg"
                             id="title"
                             placeholder="Title"
                         />
                         <input
+                            required
                             type="date"
                             className="w-full border border-gray-300 p-2 rounded-lg"
                             id="date"
@@ -54,6 +54,7 @@ export function NewCard({isOpen, closeModal}) {
                     </div>
                     <div className="mb-4">
                         <input
+                            required
                             type="url"
                             className="w-full border border-gray-300 p-2 rounded-lg"
                             id="imgUrl"
@@ -62,6 +63,7 @@ export function NewCard({isOpen, closeModal}) {
                     </div>
                     <div className="mb-4">
         <textarea
+            required
             className="w-full border border-gray-300 p-2 rounded-lg"
             rows="4"
             id="content"
