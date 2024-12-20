@@ -12,12 +12,14 @@ export function getAllCard(){
 }
 // Read an item from Local Storage
 export function getCard(id) {
-    const expectedCard = getAllCard().filter((el) => el.id === id);
+    const expectedCard = getAllCard().find((el) => el.id === id);
+    console.log(expectedCard)
 
-    if (expectedCard){
+    if (expectedCard !== undefined){
         return expectedCard
     } else {
-        return alert("Invalid id");
+        alert("Invalid id")
+        return null;
     }
 }
 
