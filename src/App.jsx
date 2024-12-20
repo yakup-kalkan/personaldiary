@@ -1,21 +1,24 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import {useState} from "react";
 import Header from "./components/Header";
 import CardContainer from "./components/CardContainer";
 import Footer from "./components/Footer";
-
+import {RerenderContext} from "./helpers/rerenderContext.js";
 
 function App() {
-  return (
+    const [isRerender, setIsRerender] = useState(true);
+    const triggerRerender = () => {
+        setIsRerender(!isRerender);
+    };
+    return (
+        <RerenderContext.Provider value={{isRerender, triggerRerender}}>
+            <div>
+                <Header/>
+                <CardContainer/>
+                <Footer/>
+            </div>
+        </RerenderContext.Provider>
 
-      <div>
-        <Header/>
-        <CardContainer/>
-        <Footer/>
-      </div>
-
-  );
+    );
 }
 
 export default App;
