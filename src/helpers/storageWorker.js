@@ -13,7 +13,6 @@ export function getAllCard(){
 // Read an item from Local Storage
 export function getCard(id) {
     const expectedCard = getAllCard().find((el) => el.id === id);
-    console.log(expectedCard)
 
     if (expectedCard !== undefined){
         return expectedCard
@@ -42,12 +41,16 @@ function clearStorage() {
 
 function cardConstructor(title, date, imgUrl, content) {
     return {
-        id: getAllCard() ? getAllCard().length + 1 : 0,
+        id: getUniqueId(),
         title: title,
         date: date,
         img: imgUrl,
         content: content
     }
+}
+
+function getUniqueId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 9);
 }
 
 

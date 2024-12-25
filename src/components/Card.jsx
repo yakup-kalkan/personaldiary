@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import {FullCard} from "./FullCard.jsx";
 
 const Card = ({id, title, date, img}) => {
@@ -22,7 +22,7 @@ const Card = ({id, title, date, img}) => {
 
                 </div>
             </div>
-            <FullCard isOpen={isOpen} closeModal={closeModal} id={id} />
+            <FullCard isOpen={isOpen} closeModal={closeModal} id={id}/>
         </>
     );
 };

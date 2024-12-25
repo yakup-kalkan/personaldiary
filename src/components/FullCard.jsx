@@ -1,15 +1,15 @@
-import {useContext, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {deleteCard, getCard} from "../helpers/storageWorker.js";
-import {RerenderContext} from "../helpers/rerenderContext.js";
+import {useRerender} from "../helpers/rerenderContext.jsx";
 
 export function FullCard({isOpen, closeModal, id}) {
     if (!isOpen) return null;
     const [isCard, setIsCard] = useState('')
-    const {triggerRerender} = useContext(RerenderContext);
+    const {triggerRerender} = useRerender();
 
-    const handleOnDelete = () => {
-        deleteCard(id);
-        triggerRerender();
+    async function handleOnDelete() {
+        await deleteCard(id);
+        await triggerRerender();
         closeModal();
     }
 

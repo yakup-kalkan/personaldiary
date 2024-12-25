@@ -1,11 +1,11 @@
-import {useContext, useState} from "react";
+import {useState} from "react";
 import {createCard} from "../helpers/storageWorker.js";
-import {RerenderContext} from "../helpers/rerenderContext.js";
+import {useRerender} from "../helpers/rerenderContext.jsx";
 
 export function NewCard({isOpen, closeModal}) {
     if (!isOpen) return null;
     const [date, setDate] = useState(null);
-    const {triggerRerender} = useContext(RerenderContext);
+    const {triggerRerender} = useRerender();
 
     const handleDateChange = (event) => {
         const selectedDate = event.target.value;
